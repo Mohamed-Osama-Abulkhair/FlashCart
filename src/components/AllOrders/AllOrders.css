@@ -1,0 +1,8 @@
+.order{
+  border-bottom: 2px solid #0AAD0A  ;
+}
+
+
+.order .fa-toggle-on,.order .fa-toggle-off{
+  font-size: 28px;
+}
