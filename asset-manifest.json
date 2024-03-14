@@ -1,0 +1,31 @@
+{
+  "files": {
+    "main.css": "/FlashCart/static/css/main.b8749605.css",
+    "main.js": "/FlashCart/static/js/main.af2a0a88.js",
+    "static/media/fa-solid-900.ttf": "/FlashCart/static/media/fa-solid-900.45a265d0f07b31cde85f.ttf",
+    "static/media/slider-image-1.png": "/FlashCart/static/media/slider-image-1.4eb3d89f11c5ee70cfdc.png",
+    "static/media/slider-image-2.png": "/FlashCart/static/media/slider-image-2.26195dae3c1517356259.png",
+    "static/media/slider-image-3.png": "/FlashCart/static/media/slider-image-3.d536d8f343b91769a65a.png",
+    "static/media/fa-brands-400.ttf": "/FlashCart/static/media/fa-brands-400.6205fd00fb1b573e9f0f.ttf",
+    "static/media/fa-solid-900.woff2": "/FlashCart/static/media/fa-solid-900.fb8184add5a3101ad0a3.woff2",
+    "static/media/fa-brands-400.woff2": "/FlashCart/static/media/fa-brands-400.8d3cabfc66809162fb4d.woff2",
+    "static/media/error.svg": "/FlashCart/static/media/error.084f5f5b0eb10d3216cb7c939108e1f6.svg",
+    "static/media/fa-regular-400.ttf": "/FlashCart/static/media/fa-regular-400.adc51aab4d771ab65f81.ttf",
+    "static/media/fa-regular-400.woff2": "/FlashCart/static/media/fa-regular-400.e931bc0d14f5bbb1da22.woff2",
+    "static/media/loading_cart.gif": "/FlashCart/static/media/loading_cart.219cd628bac375405896.gif",
+    "static/media/fa-v4compatibility.ttf": "/FlashCart/static/media/fa-v4compatibility.2eb7b3ef25042305f3ff.ttf",
+    "static/media/freshcart-logo.svg": "/FlashCart/static/media/freshcart-logo.53f7a424c3aedc30a0fb46dc2278137c.svg",
+    "static/media/fa-v4compatibility.woff2": "/FlashCart/static/media/fa-v4compatibility.b3049b13a93f07e026fc.woff2",
+    "static/media/slick.svg": "/FlashCart/static/media/slick.2630a3e3eab21c607e21.svg",
+    "static/media/slick.eot": "/FlashCart/static/media/slick.a4e97f5a2a64f0ab1323.eot",
+    "static/media/slick.ttf": "/FlashCart/static/media/slick.c94f7671dcc99dce43e2.ttf",
+    "static/media/slick.woff": "/FlashCart/static/media/slick.295183786cd8a1389865.woff",
+    "index.html": "/FlashCart/index.html",
+    "main.b8749605.css.map": "/FlashCart/static/css/main.b8749605.css.map",
+    "main.af2a0a88.js.map": "/FlashCart/static/js/main.af2a0a88.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.b8749605.css",
+    "static/js/main.af2a0a88.js"
+  ]
+}
