@@ -108,7 +108,11 @@ export default function Product(item) {
           >
             <i
               className={`fa-solid fa-heart ${
-                heartColors[item.item._id] === "red" ? "text-danger" : ""
+                heartColors?.length
+                  ? heartColors[item.item._id] === "red"
+                    ? "text-danger"
+                    : ""
+                  : ""
               }`}
             ></i>
           </button>

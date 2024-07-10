@@ -11,7 +11,6 @@ export default function CategoriesSlider() {
   }
 
   const { data, isLoading } = useQuery("getCategoriesSlider",getCategories);
-  console.log(data)
 
   const settings = {
     dots: false,
