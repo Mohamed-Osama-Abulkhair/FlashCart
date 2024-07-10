@@ -1,4 +1,3 @@
-import axios from "axios";
 import { useFormik } from "formik";
 import React, { useContext, useState } from "react";
 import * as Yup from "yup";
@@ -10,7 +9,7 @@ export default function Address() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [orderMethod, setOrderMethod] = useState("");
-  const { payCash, payCard ,setCounter} = useContext(storeContext);
+  const { payCash, payCard, setCounter } = useContext(storeContext);
   const { id } = useParams();
 
   async function sendDataToApi(values) {
@@ -18,14 +17,16 @@ export default function Address() {
     let data;
     if (orderMethod == "cash") {
       data = await payCash(id, values);
-      if (data.status == "success") {
-        toast.success(data.status);
-        setCounter(0)
-        navigate("/products");
+      console.log(data);
+      if (data.message == "success") {
+        toast.success(data.message);
+        setCounter(0);
+        navigate("/allorders");
       }
     } else {
       data = await payCard(id, values);
-      if (data.status == "success") {
+      console.log(data)
+      if (data.message == "success") {
         window.location.href = data.session.url;
       }
     }
@@ -33,22 +34,22 @@ export default function Address() {
 
   function validationSchema() {
     const schema = new Yup.object({
-      details: Yup.string().min(20).max(300).trim().required(),
+      street: Yup.string().min(3).max(20).trim().required(),
       phone: Yup.string()
         .length(11)
         .matches(/^(012|010|011|015)\d{8}$/, "egyptian numbers only")
         .trim()
         .required(),
-      city: Yup.string().min(4).max(30).trim().required(),
+      city: Yup.string().min(3).max(20).trim().required(),
     });
     return schema;
   }
 
   const addressDetails = useFormik({
     initialValues: {
-      details: "",
-      phone: "",
       city: "",
+      street: "",
+      phone: "",
     },
     validationSchema,
     onSubmit: (values) => {
@@ -61,65 +62,37 @@ export default function Address() {
       <div className="w-75 m-auto mt-5">
         <h2>Your Address :</h2>
         <form className="mt-4" onSubmit={addressDetails.handleSubmit}>
-          <label htmlFor="email">Details:</label>
+          <label htmlFor="street">Street:</label>
           <div className="position-relative">
             <textarea
               onChange={addressDetails.handleChange}
               onBlur={addressDetails.handleBlur}
-              name="details"
-              id="details"
+              name="street"
+              id="street"
               rows="2"
-              minLength={20}
-              maxLength={300}
+              minLength={3}
+              maxLength={20}
               className={`form-control mb-3 mt-1 ${
-                addressDetails.errors.details && addressDetails.touched.details
+                addressDetails.errors.street && addressDetails.touched.street
                   ? "is-invalid"
-                  : addressDetails.touched.details
+                  : addressDetails.touched.street
                   ? "is-valid"
                   : ""
               }`}
             ></textarea>
-            {addressDetails.errors.details && addressDetails.touched.details ? (
+            {addressDetails.errors.street && addressDetails.touched.street ? (
               <div className="error-message">
                 <i
                   className="fa-solid fa-caret-up"
                   style={{ color: "#df0016" }}
                 />
-                <p className="m-0 py-1">{addressDetails.errors.details}</p>
+                <p className="m-0 py-1">{addressDetails.errors.street}</p>
               </div>
             ) : (
               ""
             )}
           </div>
-          <label htmlFor="Phone">Phone:</label>
-          <div className="position-relative">
-            <input
-              onChange={addressDetails.handleChange}
-              onBlur={addressDetails.handleBlur}
-              type="text"
-              className={`form-control mb-3 mt-1 ${
-                addressDetails.errors.phone && addressDetails.touched.phone
-                  ? "is-invalid"
-                  : addressDetails.touched.phone
-                  ? "is-valid"
-                  : ""
-              }`}
-              name="phone"
-              id="phone"
-            />
-            {addressDetails.errors.phone && addressDetails.touched.phone ? (
-              <div className="error-message" style={{ zIndex: "99" }}>
-                <i
-                  className="fa-solid fa-caret-up"
-                  style={{ color: "#df0016" }}
-                />
-                <p className="m-0 py-1">{addressDetails.errors.phone}</p>
-              </div>
-            ) : (
-              ""
-            )}
-          </div>
-          <label htmlFor="City">City:</label>
+          <label htmlFor="city">City:</label>
           <div className="position-relative">
             <input
               onChange={addressDetails.handleChange}
@@ -142,6 +115,34 @@ export default function Address() {
                   style={{ color: "#df0016" }}
                 />
                 <p className="m-0 py-1">{addressDetails.errors.city}</p>
+              </div>
+            ) : (
+              ""
+            )}
+          </div>
+          <label htmlFor="phone">Phone:</label>
+          <div className="position-relative">
+            <input
+              onChange={addressDetails.handleChange}
+              onBlur={addressDetails.handleBlur}
+              type="text"
+              className={`form-control mb-3 mt-1 ${
+                addressDetails.errors.phone && addressDetails.touched.phone
+                  ? "is-invalid"
+                  : addressDetails.touched.phone
+                  ? "is-valid"
+                  : ""
+              }`}
+              name="phone"
+              id="phone"
+            />
+            {addressDetails.errors.phone && addressDetails.touched.phone ? (
+              <div className="error-message" style={{ zIndex: "99" }}>
+                <i
+                  className="fa-solid fa-caret-up"
+                  style={{ color: "#df0016" }}
+                />
+                <p className="m-0 py-1">{addressDetails.errors.phone}</p>
               </div>
             ) : (
               ""
@@ -175,7 +176,9 @@ export default function Address() {
           <button
             type="submit"
             disabled={
-              !(addressDetails.dirty && addressDetails.isValid) || !loading
+              !(addressDetails.dirty && addressDetails.isValid) ||
+              !loading ||
+              !orderMethod
             }
             className="btn bg-main text-white"
           >

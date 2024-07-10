@@ -9,12 +9,16 @@ import { baseURL } from "../../utils/baseURL.js";
 export default function ResetPassword() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [showPassword, setShowPassword] = useState(true);
 
+  function showPasswordFun() {
+    setShowPassword(!showPassword);
+  }
   function sendDataToApi(values) {
     setLoading(false);
 
     axios
-      .put(baseURL + "auth/resetPassword", values)
+      .patch(baseURL + "users/forgetPasswordVerify", values)
       .then(({ data }) => {
         localStorage.setItem("token", data.token);
         toast.success(`successfully reset password`);
@@ -22,7 +26,7 @@ export default function ResetPassword() {
       })
       .catch((err) => {
         setLoading(true);
-        toast.error(`${err.response.data.message}`, {
+        toast.error(`${err.response?.data.message}`, {
           position: "bottom-center",
         });
       });
@@ -49,6 +53,7 @@ export default function ResetPassword() {
     initialValues: {
       email: "",
       newPassword: "",
+      otpCode: "",
     },
     validationSchema,
     onSubmit: (values) => {
@@ -60,7 +65,7 @@ export default function ResetPassword() {
     <>
       <div className="w-75 m-auto mt-5">
         <h2>Reset Your Password :</h2>
-        <form className="mt-4" onSubmit={resetPass.handleSubmit}>
+        <form className="signUpForm mt-4" onSubmit={resetPass.handleSubmit}>
           <label htmlFor="email">Email:</label>
           <div className="position-relative">
             <input
@@ -90,12 +95,12 @@ export default function ResetPassword() {
             )}
           </div>
           <label htmlFor="password">New Password:</label>
-          <div className="position-relative">
+          <div className="position-relative mb-4">
             <input
+              type={showPassword ? "password" : "text"}
               onChange={resetPass.handleChange}
               onBlur={resetPass.handleBlur}
-              type="password"
-              className={`form-control mb-3 mt-1 ${
+              className={`form-control password ${
                 resetPass.errors.newPassword && resetPass.touched.newPassword
                   ? "is-invalid"
                   : resetPass.touched.newPassword
@@ -103,15 +108,56 @@ export default function ResetPassword() {
                   : ""
               }`}
               name="newPassword"
-              id="password"
             />
+            <i
+              className={`fa-solid position-absolute ${
+                showPassword ? "fa-eye" : "fa-eye-slash"
+              } ${
+                resetPass.errors.newPassword && resetPass.touched.newPassword
+                  ? "iconError"
+                  : resetPass.touched.newPassword
+                  ? "iconSucc"
+                  : ""
+              }   `}
+              onClick={() => {
+                showPasswordFun();
+              }}
+            ></i>
             {resetPass.errors.newPassword && resetPass.touched.newPassword ? (
-              <div className="error-message" style={{ zIndex: "99" }}>
+              <div className="error-message">
                 <i
                   className="fa-solid fa-caret-up"
                   style={{ color: "#df0016" }}
                 />
                 <p className="m-0 py-1">{resetPass.errors.newPassword}</p>
+              </div>
+            ) : (
+              ""
+            )}
+          </div>
+          <label htmlFor="otpCode">Code :</label>
+          <div className="position-relative">
+            <input
+              onChange={resetPass.handleChange}
+              onBlur={resetPass.handleBlur}
+              type="text"
+              className={`form-control mb-3 mt-1 ${
+                resetPass.errors.resetCode && resetPass.touched.resetCode
+                  ? "is-invalid"
+                  : resetPass.touched.resetCode
+                  ? "is-valid"
+                  : ""
+              }`}
+              name="otpCode"
+              id="otpCode"
+            />
+            {resetPass.errors.resetCode && resetPass.touched.resetCode ? (
+              <div className="error-message">
+                <i
+                  className="fa-solid fa-caret-up"
+                  style={{ color: "#df0016" }}
+                />
+                <p className="m-0 py-1">{resetPass.errors.resetCode}</p>
               </div>
             ) : (
               ""

@@ -11,12 +11,13 @@ export default function CategoriesSlider() {
   }
 
   const { data, isLoading } = useQuery("getCategoriesSlider",getCategories);
+  console.log(data)
 
   const settings = {
     dots: false,
     infinite: true,
     speed: 500,
-    slidesToShow: 7,
+    slidesToShow: 1,
     slidesToScroll: 1,
     autoplay: true,
     autoplaySpeed: 2000,
@@ -29,10 +30,10 @@ export default function CategoriesSlider() {
         <h3 className="mb-4">Shop Popular Categories</h3>
 
         <Slider {...settings}>
-          {data?.data.data.map((item) => (
+          {data?.data.result.map((item) => (
             <div className="px-1" key={item._id}>
               <img
-                src={item.image}
+                src={item.mainSliderImages[0]?.url}
                 className="w-100"
                 height={200}
                 alt={item.name}

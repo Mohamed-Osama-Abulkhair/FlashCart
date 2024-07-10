@@ -9,12 +9,17 @@ import { baseURL } from "../../utils/baseURL.js";
 export default function Signin() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [showPassword, setShowPassword] = useState(true);
+
+  function showPasswordFun() {
+    setShowPassword(!showPassword);
+  }
 
   function sendDataToApi(values) {
     setLoading(false);
 
     axios
-      .post(baseURL + "auth/signin", values)
+      .post(baseURL + "users/signin", values)
       .then(({ data }) => {
         localStorage.setItem("token", data.token);
         toast.success(`${data.message}`);
@@ -22,7 +27,7 @@ export default function Signin() {
       })
       .catch((err) => {
         setLoading(true);
-        toast.error(`${err.response.data.message}`, {
+        toast.error(`${err.response?.data.message}`, {
           position: "bottom-center",
         });
       });
@@ -60,7 +65,7 @@ export default function Signin() {
     <>
       <div className="w-75 m-auto mt-5">
         <h2>login Now:</h2>
-        <form className="mt-4" onSubmit={login.handleSubmit}>
+        <form className="signUpForm mt-4" onSubmit={login.handleSubmit}>
           <label htmlFor="email">Email:</label>
           <div className="position-relative">
             <input
@@ -90,12 +95,12 @@ export default function Signin() {
             )}
           </div>
           <label htmlFor="password">Password:</label>
-          <div className="position-relative">
+          <div className="position-relative mb-4">
             <input
+              type={showPassword ? "password" : "text"}
               onChange={login.handleChange}
               onBlur={login.handleBlur}
-              type="password"
-              className={`form-control mb-3 mt-1 ${
+              className={`form-control password ${
                 login.errors.password && login.touched.password
                   ? "is-invalid"
                   : login.touched.password
@@ -103,10 +108,23 @@ export default function Signin() {
                   : ""
               }`}
               name="password"
-              id="password"
             />
+            <i
+              className={`fa-solid position-absolute ${
+                showPassword ? "fa-eye" : "fa-eye-slash"
+              } ${
+                login.errors.password && login.touched.password
+                  ? "iconError"
+                  : login.touched.password
+                  ? "iconSucc"
+                  : ""
+              }   `}
+              onClick={() => {
+                showPasswordFun();
+              }}
+            ></i>
             {login.errors.password && login.touched.password ? (
-              <div className="error-message" style={{ zIndex: "99" }}>
+              <div className="error-message">
                 <i
                   className="fa-solid fa-caret-up"
                   style={{ color: "#df0016" }}
@@ -118,7 +136,9 @@ export default function Signin() {
             )}
           </div>
           <Link to={"/forgotPassword"}>
-            <p className="ms-auto text-info fw-bold forgetText">Forget password ?</p>
+            <p className="ms-auto text-info fw-bold forgetText">
+              Forget password ?
+            </p>
           </Link>
           <button
             type="submit"

@@ -6,12 +6,12 @@ import WishlistItem from "../WishlistItem/WishlistItem.jsx";
 export default function Wishlist() {
   const [loading, setLoading] = useState(true);
 
-  const { getCartOrWishlist,data,setData } = useContext(storeContext);
+  const { getCartOrWishlist, data, setData } = useContext(storeContext);
 
   useEffect(() => {
     (async () => {
       const data = await getCartOrWishlist("wishlist");
-      data?.response?.data.statusMsg == "fail" ? setData(null) : setData(data);
+      data.message == "success" ? setData(data.result) : setData(null);
       setLoading(false);
     })();
   }, []);
@@ -19,13 +19,13 @@ export default function Wishlist() {
   return (
     <>
       {loading ? <Loading /> : ""}
-      {!data?.data.length ? (
+      {!data?.length ? (
         <h2 className="text-center my-5 text-main">No items in Wishlist</h2>
       ) : (
         <div className="container-fluid py-5 px-5 ">
           <div className="row bg-main-light rounded-4 p-3 m-0 cartRow">
             <h2>My wish List</h2>
-            {data?.data.map((item) => {
+            {data?.map((item) => {
               return <WishlistItem key={item._id} item={item} />;
             })}
           </div>

@@ -11,11 +11,11 @@ export default function CartItem(item) {
 
   async function deleteProduct(id) {
     setDelBtnLoading(true);
-    const data = await deleteItem(id, "cart");
-    if (data.status == "success") {
+    const data = await deleteItem(id, "carts");
+    if (data.message == "success") {
       toast.warning("Product deleted successfully");
-      setCartData(data);
-      setCounter(data.numOfCartItems);
+      setCartData(data.result);
+      setCounter(data.result.cartItems.length);
       setDelBtnLoading(false);
     }
   }
@@ -23,10 +23,10 @@ export default function CartItem(item) {
   async function updateProduct(id, count) {
     setBtnLoading(true);
     const data = await updateItemQuantity(id, count);
-    if (data.status == "success") {
+    if (data.message == "success") {
       toast.success("Quantity updated successfully");
-      setCartData(data);
-      setCounter(data.numOfCartItems);
+      setCartData(data.cart);
+      setCounter(data.cart.cartItems.length);
       setBtnLoading(false);
     }
   }
@@ -35,12 +35,12 @@ export default function CartItem(item) {
     <>
       <div className="row py-3 ms-0 border-bottom gy-2">
         <div className="col-md-1">
-          <img src={item.item.product.imageCover} alt="" />
+          <img src={item.item.product.imageCover?.url} alt="" />
         </div>
         <div className="col-md-11 d-flex justify-content-between align-items-center">
           <div>
             <p className="m-0">
-              {item.item.product.title.split(" ").splice(0, 2).join(" ")}
+              {item.item.product.title?.split(" ").splice(0, 2).join(" ")}
             </p>
             <p className="text-main m-0">price :{item.item.price}</p>
             <button
@@ -59,18 +59,18 @@ export default function CartItem(item) {
             <button
               className="btn btn-outline-danger fw-bold"
               onClick={() =>
-                updateProduct(item.item.product._id, item.item.count - 1)
+                updateProduct(item.item.product._id, item.item.quantity - 1)
               }
-              disabled={btnLoading || item.item.count <= 1}
+              disabled={btnLoading || item.item.quantity <= 1}
             >
               {!btnLoading ? "-" : <i className="fa fa-spinner fa-spin"></i>}
             </button>
-            <span className="px-2 fw-bold">{item.item.count}</span>
+            <span className="px-2 fw-bold">{item.item.quantity}</span>
             <button
               className="btn btn-outline-success fw-bold"
-              onClick={() =>
-                updateProduct(item.item.product._id, item.item.count + 1)
-              }
+              onClick={() => {
+                updateProduct(item.item.product._id, item.item.quantity + 1);
+              }}
               disabled={btnLoading}
             >
               {!btnLoading ? "+" : <i className="fa fa-spinner fa-spin"></i>}

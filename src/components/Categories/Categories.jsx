@@ -17,7 +17,7 @@ export default function Categories() {
     const { data } = await axios.get(
       baseURL + "categories/" + id + "/subcategories"
     );
-    setSubcategories(data.data);
+    setSubcategories(data.result);
     setSubLoading(false);
   }
 
@@ -28,7 +28,7 @@ export default function Categories() {
       {isLoading ? <Loading /> : ""}
       <div className="my-5 container-fluid px-5">
         <div className="row g-5">
-          {data?.data.data.map((item) => (
+          {data?.data.result.map((item) => (
             <div className="col-md-4" key={item._id}>
               <div
                 className="card product cursor-pointer"
@@ -37,7 +37,7 @@ export default function Categories() {
                 onClick={() => getSubcategoriesOfCategory(item._id)}
               >
                 <img
-                  src={item.image}
+                  src={item.navImages[0].url}
                   className="w-100"
                   height={200}
                   alt={item.name}
@@ -66,6 +66,9 @@ export default function Categories() {
                                 className="col-md-6 product text-center cursor-pointer"
                                 key={sub._id}
                               >
+                                <img
+                                  src={sub.sliderImages[0]?.url}
+                                />
                                 <span>{sub.name}</span>
                               </div>
                             );

@@ -14,10 +14,10 @@ export default function ForgetPassword() {
     setLoading(false);
 
     axios
-      .post(baseURL + "auth/forgotPasswords", values)
+      .post(baseURL + "users/forgetPassword", values)
       .then(({ data }) => {
         toast.success(`${data.message}`);
-        navigate("/verifyCode");
+        navigate("/resetPassword");
       })
       .catch((err) => {
         setLoading(true);

@@ -73,7 +73,7 @@ export default function Products() {
               checked={priceFilter === "lte"}
             />
           </div>
-          {data?.data.data.map((item) => {
+          {data?.data.result.map((item) => {
             return <Product key={item._id} item={item} />;
           })}
         </div>

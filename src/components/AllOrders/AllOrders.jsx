@@ -12,7 +12,8 @@ export default function AllOrders() {
   useEffect(() => {
     (async () => {
       const data = await getUserOrders();
-      setData(data);
+      console.log(data);
+      setData(data.order);
       setLoading(false);
     })();
   }, []);
@@ -24,10 +25,7 @@ export default function AllOrders() {
         {data.length ? (
           data.map((order) => {
             return (
-              <div
-                className="mb-4 pb-4 order row"
-                key={order._id}
-              >
+              <div className="mb-4 pb-4 order row" key={order._id}>
                 <div className="col-md-6">
                   <h5>Order no. : {order.id}</h5>
                 </div>
@@ -37,18 +35,18 @@ export default function AllOrders() {
                   </h5>
                 </div>
                 <div className="col-md-6">
-                  {order.cartItems.map((item) => {
+                  {order.orderItems.map((item) => {
                     return (
                       <div className="row align-items-center" key={item._id}>
                         <div className="col-5 mb-3">
                           <img
-                            src={item.product.imageCover}
+                            src={item.product.imageCover?.url}
                             alt={item.product.title}
                           />
                         </div>
                         <div className="col-7 px-3">
                           <h6>{item.product.title}</h6>
-                          <p>QTY : {item.count}</p>
+                          <p>QTY : {item.quantity}</p>
                           <p>Price : {item.price}</p>
                         </div>
                       </div>
@@ -64,11 +62,11 @@ export default function AllOrders() {
                       <i className="fa-solid fa-toggle-off text-danger"></i>
                     )}
                   </div>
-                  <p className="my-3">city : {order.shippingAddress.city}</p>
+                  <p className="my-3">city : {order.shippingAddress?.city}</p>
                   <p className="my-3">
-                    details : {order.shippingAddress.details}
+                    street : {order.shippingAddress?.street}
                   </p>
-                  <p className="my-3">phone : {order.shippingAddress.phone}</p>
+                  <p className="my-3">phone : {order.shippingAddress?.phone}</p>
                 </div>
                 <div className="col-md-3">
                   <div className="d-flex align-items-center">
@@ -79,9 +77,12 @@ export default function AllOrders() {
                       <i className="fa-solid fa-toggle-off text-danger"></i>
                     )}
                   </div>
-                  <p className="my-3">Method : {order.paymentMethodType}</p>
+                  <p className="my-3">Method : {order.paymentMethod}</p>
                   <p className="my-3 text-main fw-bold">
-                    totalOrderPrice : {order.totalOrderPrice}
+                    Total Order Price : {order.totalOrderPrice}
+                  </p>
+                  <p className="my-3 text-main fw-bold">
+                    Discount : {order.orderDiscount}
                   </p>
                 </div>
               </div>

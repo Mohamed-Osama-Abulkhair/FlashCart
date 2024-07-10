@@ -29,20 +29,20 @@ export default function Navbar() {
 
   useEffect(() => {
     const handleScroll = throttle(() => {
-      setIsScrolled(window.scrollY > 70);
+      setIsScrolled(window.scrollY > 100);
     }, 50);
 
     window.addEventListener("scroll", handleScroll);
 
     (async () => {
       const [data, list] = await Promise.all([
-        getCartOrWishlist("cart"),
+        getCartOrWishlist("carts"),
         getCartOrWishlist("wishlist"),
       ]);
-      setCounter(data.numOfCartItems);
+      setCounter(data?.cart?.cartItems?.length);
 
-      setWishlistCounter(list?.data?.length);
-      const ids = list?.data?.map((item) => {
+      setWishlistCounter(list?.result?.length);
+      const ids = list?.result?.map((item) => {
         return item._id;
       });
       const colors = ids?.reduce((acc, id) => {

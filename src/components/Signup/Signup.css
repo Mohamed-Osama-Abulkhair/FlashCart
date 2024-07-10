@@ -1,0 +1,23 @@
+.signUpForm input.password {
+	padding-right: 40px;
+}
+.signUpForm .fa-eye,
+.signUpForm .fa-eye-slash {
+  color: #595c5f;
+  opacity: 0.5;
+  font-size: 20px;
+  right: 30px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+}
+
+.signUpForm .iconError {
+  color: #df0016;
+  opacity: 1;
+}
+
+.signUpForm .iconSucc {
+  color: #198754;
+  opacity: 1;
+}

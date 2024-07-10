@@ -7,11 +7,11 @@ import { Navigate } from "react-router-dom";
 export const storeContext = createContext(0);
 
 // ______________________________ cart & wishlist ______________________________
-function addItem(productId, api) {
+function addItem(product, api) {
   return axios
     .post(
       baseURL + api,
-      { productId },
+      { product },
       {
         headers: {
           token: localStorage.getItem("token"),
@@ -44,11 +44,11 @@ function deleteItem(productId, api) {
     .catch((err) => err);
 }
 
-function updateItemQuantity(productId, count) {
+function updateItemQuantity(productId, quantity) {
   return axios
     .put(
-      baseURL + "cart/" + productId,
-      { count },
+      baseURL + "carts/" + productId,
+      { quantity },
       {
         headers: {
           token: localStorage.getItem("token"),
@@ -78,7 +78,7 @@ function payCash(cartId, shippingAddress) {
 function payCard(cartId, shippingAddress) {
   return axios
     .post(
-      baseURL + "orders/checkout-session/" + cartId,
+      baseURL + "orders/checkout/" + cartId,
       { shippingAddress },
       {
         headers: {
@@ -91,22 +91,14 @@ function payCard(cartId, shippingAddress) {
 }
 
 function getUserOrders() {
-  const token = localStorage.getItem("token");
-  try {
-    const decoded = jwtDecode(token);
-
-    return axios
-      .get(baseURL + "orders/user/" + decoded.id, {
-        headers: {
-          token: localStorage.getItem("token"),
-        },
-      })
-      .then(({ data }) => data)
-      .catch((err) => err);
-  } catch (error) {
-    localStorage.clear();
-    return <Navigate to="/signin" />;
-  }
+  return axios
+    .get(baseURL + "orders", {
+      headers: {
+        token: localStorage.getItem("token"),
+      },
+    })
+    .then(({ data }) => data)
+    .catch((err) => err);
 }
 
 export default function StoreContextProvider({ children }) {
@@ -115,7 +107,6 @@ export default function StoreContextProvider({ children }) {
   const [heartColors, setHeartColors] = useState({});
   const [data, setData] = useState(null);
   const [cartData, setCartData] = useState(null);
-
 
   return (
     <storeContext.Provider

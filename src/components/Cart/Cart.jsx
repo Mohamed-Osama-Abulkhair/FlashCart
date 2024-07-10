@@ -11,10 +11,8 @@ export default function Cart() {
 
   useEffect(() => {
     (async () => {
-      const data = await getCartOrWishlist("cart");
-      data?.response?.data.statusMsg == "fail"
-        ? setCartData(null)
-        : setCartData(data);
+      const data = await getCartOrWishlist("carts");
+      data.message == "success" ? setCartData(data.cart) : setCartData(null);
       setLoading(false);
     })();
   }, []);
@@ -22,20 +20,20 @@ export default function Cart() {
   return (
     <>
       {loading ? <Loading /> : ""}
-      {!cartData?.numOfCartItems ? (
+      {!cartData?.cartItems.length ? (
         <h2 className="text-center my-5 text-main">No items in cart</h2>
       ) : (
         <div className="container-fluid py-5 px-5 ">
           <div className="row bg-main-light rounded-4 p-3 m-0 cartRow">
             <h2>Shop Cart</h2>
             <p className="text-main fw-bold">
-              Total Price : {cartData?.data.totalCartPrice} EGP
+              Total Price : {cartData?.totalPrice} EGP
             </p>
-            {cartData?.data.products.map((item) => {
+            {cartData?.cartItems.map((item) => {
               return <CartItem key={item._id} item={item} />;
             })}
             <Link
-              to={"/address/" + cartData.data._id}
+              to={"/address/" + cartData._id}
               className="btn bg-main text-white mt-4 m-auto w-50"
             >
               Place Order

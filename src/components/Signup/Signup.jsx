@@ -5,23 +5,29 @@ import * as Yup from "yup";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { baseURL } from "../../utils/baseURL.js";
+import "./Signup.css";
 
 export default function Signup() {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
+  const [showPassword, setShowPassword] = useState(true);
+
+  function showPasswordFun() {
+    setShowPassword(!showPassword);
+  }
 
   function sendDataToApi(values) {
     setLoading(false);
 
     axios
-      .post(baseURL + "auth/signup", values)
+      .post(baseURL + "users", values)
       .then(({ data }) => {
         toast.success(`${data.message}`);
         navigate("/signin");
       })
       .catch((err) => {
         setLoading(true);
-        toast.error(`${err.response.data.message}`, {
+        toast.error(`${err.response?.data.message}`, {
           position: "bottom-center",
         });
       });
@@ -46,10 +52,13 @@ export default function Signup() {
         )
         .trim()
         .required(),
-      rePassword: Yup.string()
-        .oneOf([Yup.ref("password")], "rePassword should match password")
-        .trim()
-        .required(),
+      phone: Yup.string()
+        .required("Phone number is required")
+        .length(11, "Phone number must be exactly 11 digits")
+        .matches(
+          /^(012|010|011|015)\d{8}$/,
+          "Phone number must be a valid Egyptian number"
+        ),
     });
     return schema;
   }
@@ -59,7 +68,7 @@ export default function Signup() {
       name: "",
       email: "",
       password: "",
-      rePassword: "",
+      phone: "",
     },
     validationSchema,
     onSubmit: (values) => {
@@ -71,7 +80,7 @@ export default function Signup() {
     <>
       <div className="w-75 m-auto mt-5">
         <h2>Register Now:</h2>
-        <form className="mt-4" onSubmit={register.handleSubmit}>
+        <form className="signUpForm mt-4 " onSubmit={register.handleSubmit}>
           <label htmlFor="name">Name:</label>
           <div className="position-relative">
             <input
@@ -130,12 +139,12 @@ export default function Signup() {
             )}
           </div>
           <label htmlFor="password">Password:</label>
-          <div className="position-relative">
+          <div className="position-relative mb-4">
             <input
+              type={showPassword ? "password" : "text"}
               onChange={register.handleChange}
               onBlur={register.handleBlur}
-              type="password"
-              className={`form-control mb-3 mt-1 ${
+              className={`form-control password ${
                 register.errors.password && register.touched.password
                   ? "is-invalid"
                   : register.touched.password
@@ -143,10 +152,23 @@ export default function Signup() {
                   : ""
               }`}
               name="password"
-              id="password"
             />
+            <i
+              className={`fa-solid position-absolute ${
+                showPassword ? "fa-eye" : "fa-eye-slash"
+              } ${
+                register.errors.password && register.touched.password
+                  ? "iconError"
+                  : register.touched.password
+                  ? "iconSucc"
+                  : ""
+              }   `}
+              onClick={() => {
+                showPasswordFun();
+              }}
+            ></i>
             {register.errors.password && register.touched.password ? (
-              <div className="error-message" style={{ zIndex: "99" }}>
+              <div className="error-message">
                 <i
                   className="fa-solid fa-caret-up"
                   style={{ color: "#df0016" }}
@@ -157,29 +179,29 @@ export default function Signup() {
               ""
             )}
           </div>
-          <label htmlFor="rePassword">RePassword:</label>
+          <label htmlFor="phone">Phone:</label>
           <div className="position-relative">
             <input
               onChange={register.handleChange}
               onBlur={register.handleBlur}
-              type="password"
+              type="text"
               className={`form-control mb-4 mt-1 ${
-                register.errors.rePassword && register.touched.rePassword
+                register.errors.phone && register.touched.phone
                   ? "is-invalid"
-                  : register.touched.rePassword
+                  : register.touched.phone
                   ? "is-valid"
                   : ""
               }`}
-              name="rePassword"
-              id="rePassword"
+              name="phone"
+              id="phone"
             />
-            {register.errors.rePassword && register.touched.rePassword ? (
+            {register.errors.phone && register.touched.phone ? (
               <div className="error-message">
                 <i
                   className="fa-solid fa-caret-up"
                   style={{ color: "#df0016" }}
                 />
-                <p className="m-0 py-1">{register.errors.rePassword}</p>
+                <p className="m-0 py-1">{register.errors.phone}</p>
               </div>
             ) : (
               ""

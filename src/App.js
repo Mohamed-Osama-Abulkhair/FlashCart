@@ -19,7 +19,6 @@ import Brands from "./components/Brands/Brands.jsx";
 import Address from "./components/Address/Address.jsx";
 import AllOrders from "./components/AllOrders/AllOrders.jsx";
 import ForgetPassword from "./components/ForgetPassword/ForgetPassword.jsx";
-import VerifyCode from "./components/VerifyCode/VerifyCode.jsx";
 import ResetPassword from "./components/ResetPassword/ResetPassword.jsx";
 
 export default function App() {
@@ -64,7 +63,6 @@ export default function App() {
           path: "categories",
           element: (
             <ProtectedRoutes>
-              {" "}
               <Categories />
             </ProtectedRoutes>
           ),
@@ -73,8 +71,7 @@ export default function App() {
           path: "brands",
           element: (
             <ProtectedRoutes>
-              {" "}
-              <Brands />{" "}
+              <Brands />
             </ProtectedRoutes>
           ),
         },
@@ -90,7 +87,6 @@ export default function App() {
           path: "wishlist",
           element: (
             <ProtectedRoutes>
-              {" "}
               <Wishlist />
             </ProtectedRoutes>
           ),
@@ -99,7 +95,6 @@ export default function App() {
           path: "product-details/:id",
           element: (
             <ProtectedRoutes>
-              {" "}
               <ProductDetails />
             </ProtectedRoutes>
           ),
@@ -108,7 +103,6 @@ export default function App() {
           path: "address/:id",
           element: (
             <ProtectedRoutes>
-              {" "}
               <Address />
             </ProtectedRoutes>
           ),
@@ -117,7 +111,6 @@ export default function App() {
           path: "allorders",
           element: (
             <ProtectedRoutes>
-              {" "}
               <AllOrders />
             </ProtectedRoutes>
           ),
@@ -132,7 +125,6 @@ export default function App() {
         { path: "signup", element: <Signup /> },
         { path: "signin", element: <Signin /> },
         { path: "forgotPassword", element: <ForgetPassword /> },
-        { path: "verifyCode", element: <VerifyCode /> },
         { path: "resetPassword", element: <ResetPassword /> },
       ],
     },
