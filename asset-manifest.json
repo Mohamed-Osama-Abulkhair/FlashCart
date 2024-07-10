@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/FlashCart/static/css/main.b8749605.css",
-    "main.js": "/FlashCart/static/js/main.af2a0a88.js",
+    "main.css": "/FlashCart/static/css/main.f594faa1.css",
+    "main.js": "/FlashCart/static/js/main.3c5a3b74.js",
     "static/media/fa-solid-900.ttf": "/FlashCart/static/media/fa-solid-900.45a265d0f07b31cde85f.ttf",
     "static/media/slider-image-1.png": "/FlashCart/static/media/slider-image-1.4eb3d89f11c5ee70cfdc.png",
     "static/media/slider-image-2.png": "/FlashCart/static/media/slider-image-2.26195dae3c1517356259.png",
@@ -21,11 +21,11 @@
     "static/media/slick.ttf": "/FlashCart/static/media/slick.c94f7671dcc99dce43e2.ttf",
     "static/media/slick.woff": "/FlashCart/static/media/slick.295183786cd8a1389865.woff",
     "index.html": "/FlashCart/index.html",
-    "main.b8749605.css.map": "/FlashCart/static/css/main.b8749605.css.map",
-    "main.af2a0a88.js.map": "/FlashCart/static/js/main.af2a0a88.js.map"
+    "main.f594faa1.css.map": "/FlashCart/static/css/main.f594faa1.css.map",
+    "main.3c5a3b74.js.map": "/FlashCart/static/js/main.3c5a3b74.js.map"
   },
   "entrypoints": [
-    "static/css/main.b8749605.css",
-    "static/js/main.af2a0a88.js"
+    "static/css/main.f594faa1.css",
+    "static/js/main.3c5a3b74.js"
   ]
 }
